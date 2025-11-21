@@ -1,0 +1,171 @@
+body {
+    margin: 0;
+    display: flex;
+    font-family: Arial;
+}
+
+/* --- Sol Panel --- */
+.sidebar {
+    width: 200px;
+    background: #f1f1f1;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+}
+
+.palette-item {
+    background: white;
+    padding: 8px;
+    border: 1px solid #999;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#trash {
+    margin-top: 20px;
+    background: #ffdddd;
+    border: 1px solid red;
+    padding: 15px;
+}
+
+/* --- Çizim Alanı --- */
+#canvas {
+    flex: 1;
+    height: 100vh;
+    position: relative;
+    background: #ddd;
+    overflow: hidden;
+}
+
+/* Harita */
+#map-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    z-index: 1; /* HARİTA en altta */
+}
+
+#map {
+    width: 2000px;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Cihazlar */
+.object {
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    z-index: 3; /* CİHAZLAR haritanın üstünde */
+}
+
+.object.selected {
+    outline: 2px solid orange;
+}
+
+/* Cihaz Etiketi */
+.device-label {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    background: rgba(255,255,255,0.8);
+    padding: 2px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 4; /* Etiket cihazdan da yukarıda */
+}
+
+/* --- IP / Label Düzenleme Paneli --- */
+.ip-editor {
+    position: absolute;
+    background: white;
+    border: 2px solid #333;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9999;
+    width: 140px;
+}
+
+.ip-editor.hidden {
+    display: none;
+}
+
+.ip-editor input {
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.ip-editor button {
+    width: 100%;
+    padding: 5px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* --- Kablo Katmanı (SVG) --- */
+#cable-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2000px;
+    height: 1200px;
+    z-index: 5;
+    pointer-events: none;   /* ⭐ SVG tıklamayı engellemeyecek */
+}
+
+/* Kablo çizgisi */
+.cable-path {
+    fill: none;
+    stroke: #888;
+    stroke-width: 2;
+    pointer-events: stroke; /* tıklanabilir çizgi */
+    cursor: pointer;
+}
+
+/* Kablo seçili */
+.cable-selected {
+    stroke-width: 5 !important;
+    stroke: #3b82f6 !important;
+}
+
+/* Ping simulasyonu renkleri */
+.cable-ok {
+    stroke: #22c55e;
+}
+
+.cable-fail {
+    stroke: #ef4444;
+}
+
+/* Sağ tık menüsü */
+.context-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #d4d4d8;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.25);
+    border-radius: 6px;
+    padding: 4px 0;
+    font-size: 14px;
+    z-index: 10000;
+}
+
+.context-menu div {
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.context-menu div:hover {
+    background: #f3f4f6;
+}
+
+.context-menu.hidden {
+    display: none;
+}
