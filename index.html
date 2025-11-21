@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ağ Topolojisi Editörü</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h3>ARAÇLAR</h3>
+    <div class="palette-item" data-type="switch">🟦 Switch</div>
+    <div class="palette-item" data-type="camera">📷 Kamera</div>
+    <div class="palette-item" data-type="pc">💻 PC</div>
+    <div class="palette-item" data-type="Distributor">🟪 Distributor</div>
+
+    <h3>Sil</h3>
+    <div id="trash">🗑️ Çöp Kutusu</div>
+</div>
+
+<div id="canvas">
+    <svg id="cable-layer"></svg>
+
+    <div id="map-area">
+        <img id="map" src="harita.jpg" draggable="false">
+    </div>
+</div>
+
+<!-- IP Düzenleme Paneli -->
+<div id="ip-editor" class="ip-editor hidden">
+    <label>IP:</label>
+    <input type="text" id="ip-input">
+    <button id="ip-save">Kaydet</button>
+</div>
+
+<!-- Etiket Düzenleme Paneli -->
+<div id="label-editor" class="ip-editor hidden">
+    <label>Etiket:</label>
+    <input type="text" id="label-input">
+    <button id="label-save">Kaydet</button>
+</div>
+
+<!-- Sağ Tık Menüsü -->
+<div id="context-menu" class="context-menu hidden">
+    <div data-action="start-cable">🔌 Kablo Başlat</div>
+    <div data-action="edit-ip">⚙️ IP Ayarları</div>
+    <div data-action="edit-label">📝 Etiket Düzenle</div>
+    <div data-action="delete">🗑 Sil</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
