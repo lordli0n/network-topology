@@ -53,7 +53,7 @@ canvas.addEventListener("click", e => {
     if (cableDrawing) return;  // kablo modundaysa cihaz eklenmez
     if (!placementMode) return;
 
-    if (e.target.classList.contains("object")) return;
+    if (e.target.closest(".object")) return;
 
     const pos = screenToWorld(e.clientX, e.clientY);
 
@@ -76,6 +76,7 @@ canvas.addEventListener("click", e => {
 
     obj.addEventListener("click", () => selectObject(obj));
     obj.addEventListener("dblclick", () => openIpEditorFor(obj));
+
     obj.addEventListener("contextmenu", ev => {
         ev.preventDefault();
         showContextMenu(ev.clientX, ev.clientY, obj);
@@ -163,7 +164,7 @@ contextMenu.addEventListener("click", e => {
 
 
 /* ================================
-   IP DÜZENLEME PANELİ
+   IP PANELİ
 ================================ */
 const ipEditor = document.getElementById("ip-editor");
 const ipInput = document.getElementById("ip-input");
@@ -187,7 +188,7 @@ function openIpEditorFor(el) {
 
 
 /* ================================
-   LABEL DÜZENLEME PANELİ
+   LABEL PANELİ
 ================================ */
 const labelEditor = document.getElementById("label-editor");
 const labelInput = document.getElementById("label-input");
@@ -229,32 +230,31 @@ function startCable(device) {
 
 
 /* ================================
-   TEK CANVAS CLICK → KABLO MODU
+   KABLO ÇİZİMİ (CİHAZA TIKLAYINCA BİTER)
 ================================ */
 canvas.addEventListener("click", e => {
     if (!cableDrawing) return;
 
-    // Cihaza tıklanırsa kabloyu bitir
-    if (e.target.classList.contains("object")) {
-        const endDevice = e.target;
+    // Cihaza tıklama yakalama (icon/label dahil)
+    const dev = e.target.closest(".object");
 
-        if (endDevice !== cableDrawing.from) {
-            const endPoint = getDeviceCenterWorld(endDevice);
+    if (dev) {
+        if (dev !== cableDrawing.from) {
+            const endPoint = getDeviceCenterWorld(dev);
             cableDrawing.points.push(endPoint);
 
             finalizeConnection(
                 cableDrawing.from,
-                endDevice,
+                dev,
                 cableDrawing.points,
                 cableDrawing.tempPath
             );
         }
-
         cableDrawing = null;
         return;
     }
 
-    // Ara nokta ekle
+    // Ara nokta
     const pos = screenToWorld(e.clientX, e.clientY);
     cableDrawing.points.push(pos);
     updateCablePath(cableDrawing.tempPath, cableDrawing.points);
@@ -262,7 +262,20 @@ canvas.addEventListener("click", e => {
 
 
 /* ================================
-   KABLO YAPISINI GÜNCELLE
+   ESC → KABLO İPTAL ET
+================================ */
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && cableDrawing) {
+        if (cableDrawing.tempPath) {
+            cableDrawing.tempPath.remove();
+        }
+        cableDrawing = null;
+    }
+});
+
+
+/* ================================
+   KABLO SHAPE GÜNCELLEME
 ================================ */
 function updateCablePath(path, pts) {
     if (pts.length < 2) return;
